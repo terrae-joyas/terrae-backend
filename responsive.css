@@ -1,0 +1,173 @@
+/* ==========================================================================
+   TERRAE — certificate.css
+   Vista web del certificado dentro del Pasaporte Digital. Replica en
+   pantalla la jerarquía visual del PDF generado por el backend (ReportLab):
+   el bloque de datos gemológicos siempre en JetBrains Mono, separado
+   visualmente del storytelling de marca.
+   ========================================================================== */
+
+.certificado {
+  background: var(--terrae-marfil-050);
+  color: var(--terrae-nogal-950);
+  border: 1px solid var(--terrae-oro-500);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Marca de agua del monograma — referencia visual, se reemplaza por el SVG
+   real del isotipo en producción (assets/logo/) */
+.certificado::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/logo/terrae-isotipo-oro-negro.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 55%;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.certificado__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(14, 59, 46, 0.2);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.certificado__logo { height: 44px; }
+
+.certificado__numero {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--terrae-verde-950);
+}
+
+.certificado__titulo {
+  font-family: var(--font-display);
+  color: var(--terrae-verde-950);
+  text-align: center;
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.certificado__datos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: rgba(14, 59, 46, 0.04);
+  border: 1px solid rgba(14, 59, 46, 0.12);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.certificado__dato-label {
+  color: var(--terrae-verde-700);
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.certificado__pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: var(--space-4);
+  position: relative;
+}
+
+.certificado__firma {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  border-top: 1px solid var(--terrae-nogal-950);
+  padding-top: 4px;
+}
+
+.certificado__qr {
+  width: 96px; height: 96px;
+  border: 2px solid var(--terrae-oro-500);
+  padding: 4px;
+  background: #fff;
+}
+
+.certificado__hash {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(26, 20, 16, 0.5);
+  word-break: break-all;
+  margin-top: var(--space-2);
+}
+
+.certificado__descargar {
+  margin-top: var(--space-3);
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------------
+   BADGE DE VERIFICACIÓN BLOCKCHAIN — sello discreto, no un ícono cripto
+   ------------------------------------------------------------------------- */
+.sello-blockchain {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 10px 18px;
+  border: 1px solid var(--terrae-esmeralda-500);
+  border-radius: 999px;
+  color: var(--terrae-esmeralda-500);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sello-blockchain__icono { width: 16px; height: 16px; }
+
+.sello-blockchain[data-estado="verificando"] {
+  color: var(--terrae-oro-500);
+  border-color: var(--terrae-oro-500);
+}
+.sello-blockchain[data-estado="error"] {
+  color: #C97F7F;
+  border-color: #7A2E2E;
+}
+
+.bloque-blockchain {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--borde-oro);
+}
+.bloque-blockchain__campo { overflow-wrap: anywhere; }
+
+/* -------------------------------------------------------------------------
+   ACCIONES DEL CERTIFICADO — Descargar / Compartir / Imprimir
+   ------------------------------------------------------------------------- */
+.certificado__acciones {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Estilos de impresión: al imprimir, solo el certificado es visible */
+@media print {
+  body * { visibility: hidden; }
+  .certificado, .certificado * { visibility: visible; }
+  .certificado {
+    position: absolute; left: 0; top: 0; width: 100%;
+    border: none;
+  }
+  .certificado__acciones { display: none; }
+}

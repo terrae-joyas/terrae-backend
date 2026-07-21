@@ -1,0 +1,19 @@
+TERRAE — assets/video/
+============================================================
+Este directorio está preparado para el video de fondo del hero
+cinematográfico de index.html (elemento <video class="hero__video">,
+fuente esperada: hero-terrae.mp4).
+
+En la Fase 2 no se incluye un video real. index.html ya referencia
+"hero-terrae.mp4" y usa `poster="assets/img/hero-poster.jpg"`, por lo
+que el sitio funciona correctamente sin el archivo (se muestra el
+poster estático como imagen de fondo del hero).
+
+Especificación recomendada para el video definitivo:
+- Formato: MP4 (H.264), con WebM como fuente adicional para mejor compresión.
+- Duración: 8–15 segundos en loop silencioso.
+- Resolución: 1920x1080 mínimo, comprimido a <8MB para no penalizar el LCP.
+- Contenido: macro de la esmeralda, manos artesanas trabajando la plata,
+  luz natural — nunca animación 3D ni motion graphics "tech".
+- Colocar el archivo final en esta carpeta como "hero-terrae.mp4" y,
+  opcionalmente, "hero-terrae.webm" (añadir <source> adicional en el HTML).

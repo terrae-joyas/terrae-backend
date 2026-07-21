@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasaporte Digital Inteligente — Terrae</title>
+  <meta name="description" content="Descubre la historia, autenticidad y trazabilidad de tu joya Terrae: el Pasaporte Digital Inteligente certificado y verificable en blockchain.">
+  <meta name="robots" content="noindex, follow">
+
+  <meta property="og:title" content="Pasaporte Digital Inteligente — Terrae">
+  <meta property="og:description" content="La historia completa de tu joya Terrae: origen, artesanía, certificación y trazabilidad.">
+  <meta property="og:type" content="product">
+  <meta property="og:image" content="assets/img/og-terrae.jpg">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,500&family=Jost:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/passport.css">
+  <link rel="stylesheet" href="css/certificate.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/microscopy.css">
+  <link rel="stylesheet" href="css/blockchain.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-pagina="pasaporte">
+  <a class="saltar-contenido" href="#contenido-principal">Saltar al contenido principal</a>
+
+  <header class="navbar">
+    <div class="navbar__inner">
+      <a class="navbar__logo" href="index.html" aria-label="Terrae, inicio">
+        <img src="assets/logo/terrae-isotipo-oro-negro.jpg" alt="" width="36" height="36">
+        <span class="navbar__logo-texto">Terrae</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="navbar__links" id="navbar-links">
+          <li><a href="index.html#colecciones">Colecciones</a></li>
+          <li><a href="index.html#verificar">Verificar otra joya</a></li>
+        </ul>
+      </nav>
+      <button class="navbar__menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar-links">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+
+    <!-- ============ ESTADO: CARGANDO ============ -->
+    <div class="estado-pantalla" data-estado-pasaporte="cargando">
+      <div class="loader" role="status" aria-label="Cargando el Pasaporte Digital"></div>
+      <p class="estado-pantalla__texto">Descubriendo la historia de tu pieza…</p>
+    </div>
+
+    <!-- ============ ESTADO: ERROR ============ -->
+    <div class="estado-pantalla" data-estado-pasaporte="error" data-tipo="error">
+      <svg class="estado-pantalla__icono" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.6h15.4a2 2 0 0 0 1.7-3.1L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="1.3"/></svg>
+      <h1 class="estado-pantalla__titulo">No fue posible cargar el Pasaporte Digital</h1>
+      <p class="estado-pantalla__texto">Ocurrió un problema al consultar la información.</p>
+      <a class="boton boton--secundario" href="index.html">Volver al inicio</a>
+    </div>
+
+    <!-- ============ ESTADO: NO ENCONTRADA ============ -->
+    <div class="estado-pantalla" data-estado-pasaporte="no-encontrada" data-tipo="no-encontrada">
+      <svg class="estado-pantalla__icono" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.3"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.3"/></svg>
+      <h1 class="estado-pantalla__titulo">No encontramos esta pieza</h1>
+      <p class="estado-pantalla__texto">Revisa el código ingresado o el QR escaneado.</p>
+      <a class="boton boton--secundario" href="index.html">Volver al inicio</a>
+    </div>
+
+    <!-- ============ ESTADO: DESCONTINUADA ============ -->
+    <div class="estado-pantalla" data-estado-pasaporte="descontinuada" data-tipo="descontinuada">
+      <svg class="estado-pantalla__icono" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 3 7l9 5 9-5-9-5Z" stroke="currentColor" stroke-width="1.2"/><path d="M3 12l9 5 9-5" stroke="currentColor" stroke-width="1.2"/></svg>
+      <h1 class="estado-pantalla__titulo">Esta pieza fue descontinuada</h1>
+      <p class="estado-pantalla__texto">Su historia y certificación permanecen documentadas.</p>
+      <a class="boton boton--secundario" href="index.html#colecciones">Ver colección actual</a>
+    </div>
+
+    <!-- ============ ESTADO: VENDIDA ============ -->
+    <div class="estado-pantalla" data-estado-pasaporte="vendida" data-tipo="vendida">
+      <svg class="estado-pantalla__icono" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20h16M6 20V10l6-6 6 6v10" stroke="currentColor" stroke-width="1.2"/></svg>
+      <h1 class="estado-pantalla__titulo">Esta pieza ya tiene un propietario</h1>
+      <p class="estado-pantalla__texto">El Pasaporte Digital de esta joya pertenece ahora a su propietario registrado.</p>
+      <a class="boton boton--secundario" href="index.html#colecciones">Explorar piezas disponibles</a>
+    </div>
+
+    <!-- ============ ESTADO: LISTO (contenido principal) ============ -->
+    <div data-estado-pasaporte="listo">
+
+      <!-- Aviso no bloqueante para piezas con certificado pendiente -->
+      <div class="contenedor aviso-certificado-pendiente" data-aviso-certificado-pendiente hidden style="margin-top: calc(var(--altura-navbar) + var(--space-2));" role="status">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5m0 4h.01M12 2 2 20h20L12 2Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        <span>Esta pieza aún está en proceso de certificación gemológica. Algunas secciones se completarán automáticamente cuando el proceso finalice.</span>
+      </div>
+
+      <!-- ===================== HERO PREMIUM ===================== -->
+      <section class="pasaporte-hero contenedor" aria-labelledby="pieza-nombre">
+        <div class="pasaporte-hero__imagen">
+          <img src="assets/img/placeholder-pieza-1.jpg" alt="Fotografía principal de la pieza" data-campo="imagen-principal">
+        </div>
+        <div>
+          <p class="pasaporte-hero__sku">Pieza N.° <span data-campo="id-pieza">—</span> · Colección <span data-campo="coleccion">—</span></p>
+          <h1 class="pasaporte-hero__nombre" id="pieza-nombre" data-campo="nombre">Cargando pieza…</h1>
+
+          <div class="pasaporte-hero__badges">
+            <span class="badge badge--verificado" data-campo="badge-estado">Certificada</span>
+          </div>
+
+          <div class="pasaporte-hero__esmeralda">
+            <div class="pasaporte-hero__dato">
+              <span class="pasaporte-hero__dato-label">Origen</span>
+              <span class="pasaporte-hero__dato-valor" data-campo="origen">—</span>
+            </div>
+            <div class="pasaporte-hero__dato">
+              <span class="pasaporte-hero__dato-label">Quilates</span>
+              <span class="pasaporte-hero__dato-valor" data-campo="quilates">—</span>
+            </div>
+            <div class="pasaporte-hero__dato">
+              <span class="pasaporte-hero__dato-label">Color</span>
+              <span class="pasaporte-hero__dato-valor" data-campo="color-grado">—</span>
+            </div>
+            <div class="pasaporte-hero__dato">
+              <span class="pasaporte-hero__dato-label">Metal</span>
+              <span class="pasaporte-hero__dato-valor" data-campo="metal">—</span>
+            </div>
+          </div>
+
+          <p>Peso total: <span data-campo="peso">—</span> · Tratamiento: <span data-campo="tratamiento">—</span></p>
+
+          <div class="pasaporte-hero__acciones">
+            <a class="boton boton--primario" href="#certificado">Ver certificado</a>
+            <a class="boton boton--secundario" href="#trazabilidad">Ver trazabilidad</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NAVEGACIÓN INTERNA ===================== -->
+      <nav class="pasaporte-nav" aria-label="Secciones del Pasaporte Digital">
+        <ul class="pasaporte-nav__lista">
+          <li><a href="#historia-esmeralda">Historia</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#huella-digital">Huella digital</a></li>
+          <li><a href="#certificado">Certificado</a></li>
+          <li><a href="#trazabilidad">Trazabilidad</a></li>
+          <li><a href="#blockchain">Blockchain</a></li>
+          <li><a href="#garantia">Garantía</a></li>
+          <li><a href="#propietario">Propietario</a></li>
+        </ul>
+      </nav>
+
+      <!-- ===================== HISTORIA DE LA ESMERALDA (9 etapas) ===================== -->
+      <section class="seccion seccion--compacta" id="historia-esmeralda" aria-labelledby="historia-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">La historia de tu esmeralda</span>
+          <h2 id="historia-titulo">De la veta a tu Pasaporte Digital</h2>
+          <div class="historia-esmeralda__etapas" data-componente="historia-esmeralda"></div>
+        </div>
+      </section>
+
+      <!-- ===================== GALERÍA PREMIUM ===================== -->
+      <section class="seccion seccion--compacta" id="galeria" aria-labelledby="galeria-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Galería</span>
+          <h2 id="galeria-titulo">Observa cada detalle</h2>
+          <div class="visor-premium" data-componente="visor-premium"></div>
+        </div>
+      </section>
+
+      <!-- ===================== HUELLA DIGITAL (microscopía) ===================== -->
+      <section class="seccion seccion--compacta" id="huella-digital" aria-labelledby="huella-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Exclusivo Terrae</span>
+          <h2 id="huella-titulo">La Huella Digital de tu Esmeralda</h2>
+          <div data-componente="huella-digital"></div>
+        </div>
+      </section>
+
+      <!-- ===================== CERTIFICADO ===================== -->
+      <section class="seccion seccion--compacta" id="certificado" aria-labelledby="certificado-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Certificado digital</span>
+          <h2 id="certificado-titulo">Certificado de autenticidad</h2>
+
+          <div data-componente="certificado">
+            <div class="certificado">
+              <div class="certificado__cabecera">
+                <img class="certificado__logo" src="assets/logo/terrae-logo-fondo-blanco.jpg" alt="Terrae">
+                <div class="certificado__numero">
+                  N.° <span data-campo="numero-certificado">—</span><br>
+                  Emitido: <span data-campo="fecha-emision">—</span>
+                </div>
+              </div>
+
+              <h3 class="certificado__titulo">Certificado de Autenticidad y Origen</h3>
+
+              <div class="certificado__datos">
+                <div><span class="certificado__dato-label">Origen predicho</span><span data-campo="origen">—</span></div>
+                <div><span class="certificado__dato-label">Quilates</span><span data-campo="quilates">—</span></div>
+                <div><span class="certificado__dato-label">Grado de color</span><span data-campo="color-grado">—</span></div>
+                <div><span class="certificado__dato-label">Tratamiento</span><span data-campo="tratamiento">—</span></div>
+              </div>
+
+              <div class="certificado__pie">
+                <div>
+                  <p class="certificado__firma">Terrae Gemological Board</p>
+                  <p class="certificado__hash">SHA-256: <span data-campo="hash-certificado">—</span></p>
+                </div>
+                <img class="certificado__qr" src="assets/icons/qr-placeholder.svg" alt="Código QR de verificación de esta pieza">
+              </div>
+            </div>
+
+            <div class="certificado__acciones">
+              <a class="boton boton--secundario" data-campo="descargar-pdf" href="#" target="_blank" rel="noopener">Descargar PDF</a>
+              <button class="boton boton--secundario" data-accion="compartir-certificado" type="button">Compartir</button>
+              <button class="boton boton--secundario" data-accion="imprimir-certificado" type="button">Imprimir</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== TRAZABILIDAD (TIMELINE) ===================== -->
+      <section class="seccion seccion--compacta" id="trazabilidad" aria-labelledby="timeline-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Trazabilidad</span>
+          <h2 id="timeline-titulo">Cada etapa, documentada</h2>
+          <ol class="timeline" data-componente="timeline"></ol>
+        </div>
+      </section>
+
+      <!-- ===================== BLOCKCHAIN (vista dual) ===================== -->
+      <section class="seccion seccion--compacta" id="blockchain" aria-labelledby="blockchain-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Verificación blockchain</span>
+          <h2 id="blockchain-titulo">Integridad verificable</h2>
+
+          <div class="blockchain-vistas" data-componente="blockchain-vistas">
+            <div class="blockchain-vistas__panel" data-vista-blockchain="cliente"></div>
+            <div class="blockchain-vistas__panel" data-vista-blockchain="tecnica" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== GARANTÍA ===================== -->
+      <section class="seccion seccion--compacta" id="garantia" aria-labelledby="garantia-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Garantía Terrae</span>
+          <h2 id="garantia-titulo">Cobertura de tu pieza</h2>
+
+          <div data-componente="garantia">
+            <div class="garantia-card">
+              <div class="garantia-card__item">
+                <div class="garantia-card__valor" data-campo="garantia-compra">—</div>
+                <div class="garantia-card__label">Fecha de compra</div>
+              </div>
+              <div class="garantia-card__item">
+                <div class="garantia-card__valor" data-campo="garantia-cobertura">—</div>
+                <div class="garantia-card__label">Cobertura</div>
+              </div>
+              <div class="garantia-card__item">
+                <div class="garantia-card__valor" data-campo="garantia-vigencia">—</div>
+                <div class="garantia-card__label">Vigencia</div>
+              </div>
+              <div class="garantia-card__item">
+                <span class="garantia-card__label">Estado</span><br>
+                <span class="estado estado--exito" data-campo="garantia-estado">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top: var(--space-3);">
+            <button class="boton boton--secundario" data-modal-abrir="modal-mantenimiento" type="button">Registrar mantenimiento</button>
+          </div>
+
+          <div style="margin-top: var(--space-5);">
+            <h3>Historial de mantenimiento</h3>
+            <div style="overflow-x:auto;">
+              <table class="tabla" data-componente="tabla-mantenimiento">
+                <thead>
+                  <tr><th scope="col">Fecha</th><th scope="col">Servicio</th><th scope="col">Técnico</th><th scope="col">Observaciones</th><th scope="col">Documento</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== PROPIETARIO (privado) ===================== -->
+      <section class="seccion seccion--compacta" id="propietario" aria-labelledby="propietario-titulo">
+        <div class="contenedor">
+          <span class="eyebrow">Titularidad — sección privada</span>
+          <h2 id="propietario-titulo">Registro del propietario</h2>
+          <p class="campo__ayuda">Esta información nunca se muestra públicamente. Solo el propietario autenticado puede ver y gestionar su titularidad.</p>
+
+          <div class="propietario-panel" data-estado="sin-sesion">
+            <div class="propietario-panel__texto propietario-panel__solo-anonimo">
+              <p>Si acabas de adquirir esta pieza, inicia sesión para registrar tu titularidad en el Pasaporte Digital.</p>
+            </div>
+            <button class="boton boton--secundario propietario-panel__solo-anonimo" data-accion="reclamar-pieza" type="button">Registrar mi titularidad</button>
+
+            <form class="propietario-panel__texto propietario-panel__solo-autenticado" data-form="registrar-propietario">
+              <div class="campo">
+                <label class="campo__label" for="nombreCompleto">Nombre completo</label>
+                <input class="campo__input" id="nombreCompleto" name="nombreCompleto" type="text" required>
+              </div>
+              <div class="campo">
+                <label class="campo__label" for="pais">País</label>
+                <input class="campo__input" id="pais" name="pais" type="text" required>
+              </div>
+              <div class="campo">
+                <label class="campo__label" for="tipoAdquisicion">Tipo de adquisición</label>
+                <select class="campo__select" id="tipoAdquisicion" name="tipoAdquisicion" required>
+                  <option value="compra">Compra</option>
+                  <option value="herencia">Herencia</option>
+                  <option value="transferencia">Transferencia</option>
+                </select>
+              </div>
+              <button class="boton boton--primario" type="submit">Registrar titularidad</button>
+              <p data-mensaje hidden></p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NFT (oculto salvo que exista) ===================== -->
+      <section class="seccion seccion--compacta seccion-nft" id="nft" aria-labelledby="nft-titulo" hidden></section>
+    </div>
+  </main>
+
+  <!-- Lightbox global -->
+  <div class="lightbox" aria-hidden="true">
+    <button class="lightbox__anterior" aria-label="Imagen anterior">‹</button>
+    <div class="lightbox__contenido"></div>
+    <button class="lightbox__siguiente" aria-label="Imagen siguiente">›</button>
+    <button class="lightbox__cerrar" aria-label="Cerrar galería">✕</button>
+    <span class="lightbox__contador"></span>
+  </div>
+
+  <!-- Modal: Registrar mantenimiento -->
+  <div class="modal-overlay" id="modal-mantenimiento" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-mantenimiento-titulo">
+      <button class="modal__cerrar" data-modal-cerrar aria-label="Cerrar">✕</button>
+      <h2 id="modal-mantenimiento-titulo">Registrar mantenimiento</h2>
+      <form data-form="registrar-mantenimiento" novalidate>
+        <div class="campo">
+          <label class="campo__label" for="tipoServicio">Tipo de servicio</label>
+          <select class="campo__select" id="tipoServicio" name="tipoServicio" required>
+            <option value="limpieza">Limpieza profesional</option>
+            <option value="ajuste">Ajuste y reparación</option>
+            <option value="recertificacion">Recertificación</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label class="campo__label" for="detalle">Detalle</label>
+          <textarea class="campo__textarea" id="detalle" name="detalle" rows="3" required></textarea>
+        </div>
+        <button class="boton boton--primario" type="submit">Registrar servicio</button>
+        <p data-mensaje hidden style="margin-top: var(--space-2);"></p>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__bottom">
+        <span>© <span data-anio-actual>2026</span> Terrae.</span>
+        <a href="index.html">Volver al inicio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/passport.js" defer></script>
+  <script src="js/gallery.js" defer></script>
+  <script src="js/timeline.js" defer></script>
+  <script src="js/microscopy.js" defer></script>
+  <script src="js/blockchain.js" defer></script>
+  <script src="js/maintenance.js" defer></script>
+  <script src="js/owner.js" defer></script>
+  <script src="js/nft.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+TERRAE — assets/fonts/
+============================================================
+Las tres tipografías oficiales de Terrae (Cormorant Garamond, Jost,
+JetBrains Mono) se cargan actualmente vía Google Fonts CDN en el <head>
+de cada página HTML, con preconnect para minimizar la latencia:
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=..." rel="stylesheet">
+
+Este directorio queda preparado para auto-hospedar los archivos .woff2
+si en producción se requiere independencia total de terceros (mejor
+privacidad, sin bloqueo por caída de Google Fonts, mejor control de
+performance). Para migrar:
+
+1. Descargar los .woff2 de cada peso usado (300/400/500/600 según el
+   caso) y colocarlos aquí como:
+   cormorant-garamond-300.woff2, cormorant-garamond-500.woff2, ...
+   jost-300.woff2, jost-400.woff2, jost-500.woff2
+   jetbrains-mono-400.woff2, jetbrains-mono-500.woff2
+
+2. Añadir en css/style.css, antes de la sección de tokens:
+   @font-face {
+     font-family: 'Cormorant Garamond';
+     src: url('../assets/fonts/cormorant-garamond-500.woff2') format('woff2');
+     font-weight: 500;
+     font-display: swap;
+   }
+   (repetir por cada familia/peso)
+
+3. Eliminar las etiquetas <link> de Google Fonts del <head> de cada HTML.
+
+No usar ninguna tipografía fuera de estas tres en ningún caso.

@@ -1,0 +1,141 @@
+/**
+ * TERRAE — admin.js
+ * -----------------------------------------------------------------------
+ * Lógica de admin.html y login.html: autenticación, sidebar responsive,
+ * formulario de registro de joya y aprobación de certificado. Todo pasa
+ * por TerraeAPI (mock en Fase 2, real en Fase 3+).
+ * -----------------------------------------------------------------------
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  inicializarLogin();
+  inicializarSidebarMobile();
+  inicializarFormularioJoya();
+  inicializarAprobacionCertificado();
+  protegerRutaAdmin();
+});
+
+/* -------------------------------------------------------------------------
+   LOGIN
+   ------------------------------------------------------------------------- */
+function inicializarLogin() {
+  const formulario = document.querySelector('[data-form="login"]');
+  if (!formulario) return;
+
+  formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    const boton = formulario.querySelector('button[type="submit"]');
+    const error = formulario.querySelector('[data-login-error]');
+    error.hidden = true;
+    boton.disabled = true;
+    boton.textContent = 'Ingresando…';
+
+    try {
+      const resultado = await TerraeAPI.iniciarSesion(formulario.email.value, formulario.password.value);
+      TerraeAPI.setAccessToken(resultado.access_token);
+      const destino = new URLSearchParams(window.location.search).get('returnTo') || 'admin.html';
+      window.location.href = destino;
+    } catch (e) {
+      error.hidden = false;
+      error.textContent = 'Credenciales inválidas. Verifica tu correo y contraseña.';
+      console.error('[admin.js]', e);
+    } finally {
+      boton.disabled = false;
+      boton.textContent = 'Ingresar';
+    }
+  });
+}
+
+/**
+ * Punto de integración de seguridad: en producción, admin.html debe
+ * verificar sesión válida contra el backend antes de renderizar datos
+ * sensibles (no solo confiar en la presencia del token en memoria, que
+ * se pierde al recargar por diseño). Aquí se deja el gancho documentado.
+ */
+function protegerRutaAdmin() {
+  const raiz = document.querySelector('[data-pagina="admin"]');
+  if (!raiz) return;
+  // MOCK — en Fase 3+: si no hay sesión válida, redirigir a login.html.
+  // if (!TerraeAPI.getAccessToken()) window.location.href = 'login.html';
+}
+
+/* -------------------------------------------------------------------------
+   SIDEBAR RESPONSIVE
+   ------------------------------------------------------------------------- */
+function inicializarSidebarMobile() {
+  const boton = document.querySelector('[data-accion="toggle-sidebar"]');
+  const sidebar = document.querySelector('.admin-sidebar');
+  if (!boton || !sidebar) return;
+  boton.addEventListener('click', () => sidebar.classList.toggle('esta-abierto'));
+}
+
+/* -------------------------------------------------------------------------
+   REGISTRO DE JOYA (caso de uso RegistrarJoya, Fase 1 sección 4.1)
+   ------------------------------------------------------------------------- */
+function inicializarFormularioJoya() {
+  const formulario = document.querySelector('[data-form="registrar-joya"]');
+  if (!formulario) return;
+
+  formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    const boton = formulario.querySelector('button[type="submit"]');
+    boton.disabled = true;
+    boton.textContent = 'Registrando…';
+
+    const datos = {
+      nombre: formulario.nombre.value,
+      tipoPieza: formulario.tipoPieza.value,
+      metal: formulario.metal.value,
+      pesoGramos: Number(formulario.pesoGramos.value),
+      precio: Number(formulario.precio.value),
+    };
+
+    try {
+      const joya = await TerraeAPI.registrarJoya(datos, crypto.randomUUID());
+      mostrarNotificacionAdmin(`Pieza "${joya.nombre}" registrada. Estado: pendiente de certificación.`, 'exito');
+      formulario.reset();
+    } catch (error) {
+      mostrarNotificacionAdmin('No fue posible registrar la pieza.', 'error');
+      console.error('[admin.js]', error);
+    } finally {
+      boton.disabled = false;
+      boton.textContent = 'Registrar pieza';
+    }
+  });
+}
+
+/* -------------------------------------------------------------------------
+   APROBACIÓN DE CERTIFICADO (rol AUDITOR, Fase 1 sección 6)
+   ------------------------------------------------------------------------- */
+function inicializarAprobacionCertificado() {
+  document.querySelectorAll('[data-accion="aprobar-certificado"]').forEach((boton) => {
+    boton.addEventListener('click', async () => {
+      const joyaId = boton.dataset.joyaId;
+      boton.disabled = true;
+      boton.textContent = 'Aprobando…';
+      try {
+        await TerraeAPI.aprobarCertificado(joyaId, crypto.randomUUID());
+        mostrarNotificacionAdmin('Certificado aprobado y encolado para anclaje blockchain.', 'exito');
+        const fila = boton.closest('tr');
+        if (fila) fila.querySelector('[data-columna="estado"]').textContent = 'En proceso';
+      } catch (error) {
+        mostrarNotificacionAdmin('No fue posible aprobar el certificado.', 'error');
+        console.error('[admin.js]', error);
+      } finally {
+        boton.disabled = false;
+        boton.textContent = 'Aprobar';
+      }
+    });
+  });
+}
+
+function mostrarNotificacionAdmin(texto, tipo) {
+  const contenedor = document.querySelector('[data-notificaciones]');
+  if (!contenedor) return;
+  const nota = document.createElement('div');
+  nota.className = `estado estado--${tipo}`;
+  nota.setAttribute('role', 'status');
+  nota.textContent = texto;
+  contenedor.prepend(nota);
+  setTimeout(() => nota.remove(), 6000);
+}

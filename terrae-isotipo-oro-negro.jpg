@@ -1,0 +1,124 @@
+# Terrae — Frontend Premium
+
+### *"Lo que la tierra esconde, Terrae lo revela"*
+
+Frontend estático (HTML5 + CSS3 + JavaScript ES6+, **sin frameworks**) del ecosistema digital Terrae. Incluye la landing de marca (Fase 2) y el **Pasaporte Digital Inteligente** (Fase 3): la experiencia inmersiva que ve el cliente al escanear el QR de una joya.
+
+---
+
+## 1. Estado del proyecto por fase
+
+- **Fase 0/1:** identidad visual y arquitectura (ver documentos de arquitectura entregados aparte).
+- **Fase 2:** landing premium (`index.html`), login (`login.html`).
+- **Fase 3:** `pieza.html` — Pasaporte Digital Inteligente completo: hero, historia narrativa en 9 etapas, visor premium, microscopía ("La Huella Digital de tu Esmeralda"), certificado con compartir/imprimir, trazabilidad interactiva, blockchain con vista Cliente/Técnica, garantía, historial de mantenimiento, titularidad privada, y sección NFT condicional. Ver `docs/FLUJO-DE-DATOS.md` y `docs/GUIA-INTEGRACION-API.md`.
+- **Fase 4 (actual):** `admin.html` — **Centro de Operaciones Terrae**, el back office empresarial completo: 14 módulos (Dashboard, Joyas, Esmeraldas, Blockchain, Propietarios, Garantías, Mantenimientos, Multimedia, Usuarios y Roles, Auditoría, Configuración), con generación automática de ID y QR, aprobación de certificados, y una capa de datos persistente (`js/admin-api.js`) lista para reemplazarse por FastAPI. Ver `docs/MANUAL-ADMINISTRADOR.md` y `docs/GUIA-MODULOS.md`.
+
+---
+
+## 2. Estructura del proyecto
+
+```
+frontend/
+├── index.html          Landing premium
+├── pieza.html            Pasaporte Digital Inteligente (Fase 3)
+├── admin.html           Centro de Operaciones — Back Office (Fase 4)
+├── login.html            Acceso al Centro de Operaciones
+│
+├── css/
+│   ├── style.css          Base: reset, design tokens, componentes comunes
+│   ├── landing.css        Hero, storytelling, colecciones, filosofía
+│   ├── passport.css       Layout del pasaporte + estados de pantalla + historia 9 etapas
+│   ├── certificate.css    Certificado + acciones compartir/imprimir
+│   ├── timeline.css       Trazabilidad enriquecida (lugar, responsable, hash, estado)
+│   ├── gallery.css        Lightbox + Visor Premium (zoom, miniaturas, 360°/3D preparados)
+│   ├── microscopy.css     "La Huella Digital de tu Esmeralda"
+│   ├── blockchain.css     Vista dual Cliente/Técnica (Pasaporte Digital)
+│   ├── backoffice.css     Sistema de diseño "Silent Luxury Enterprise" del Back Office
+│   ├── admin.css          Pantalla de login (Fase 2, aún vigente)
+│   └── responsive.css     Breakpoints, se carga al final
+│
+├── js/
+│   ├── app.js              Configuración global, mocks (PIEZAS_DEMO), navbar, scroll reveal, modales, tabs
+│   ├── api.js               Cliente de integración del sitio público/pasaporte (TerraeAPI)
+│   ├── admin-api.js        Capa de datos del Back Office (AdminAPI) — CRUD completo, ID/QR/certificado automáticos, auditoría
+│   ├── admin-app.js         Shell del Back Office: router por hash, DataTable, Drawer, Toast, Confirm, Uploader, validadores
+│   ├── admin-modules/       Un archivo por módulo del Centro de Operaciones (14 módulos, ver docs/GUIA-MODULOS.md)
+│   ├── passport.js          Orquestador del pasaporte: estados, hero, historia, certificado, garantía
+│   ├── gallery.js            Catálogo dinámico + Visor Premium + lightbox
+│   ├── microscopy.js        Huella digital / inclusiones
+│   ├── timeline.js           Trazabilidad interactiva con scroll reveal por evento
+│   ├── blockchain.js        Vista Cliente/Técnica del pasaporte + detección de NFT
+│   ├── maintenance.js       Historial y registro de mantenimiento (vista del cliente)
+│   ├── owner.js              Titularidad privada (vista del cliente)
+│   ├── nft.js                 Sección NFT condicional
+│   └── admin.js              Autenticación de login.html
+│
+├── assets/            Logotipos oficiales, favicon, placeholders de imagen/video/fuentes
+│
+├── docs/
+│   ├── COMPONENTES.md            Documentación de cada componente reutilizable (sitio público + Back Office)
+│   ├── GUIA-DE-ESTILOS.md         Color, tipografía, espaciado, principios de marca
+│   ├── FLUJO-DE-DATOS.md          Cómo se resuelve el ID y se compone el pasaporte (Fase 3)
+│   ├── GUIA-INTEGRACION-API.md    Cómo conectar el backend real, sitio público y Back Office (Fase 4+)
+│   ├── MANUAL-ADMINISTRADOR.md    Manual de uso del Centro de Operaciones
+│   └── GUIA-MODULOS.md            Detalle de los 14 módulos del Back Office
+│
+├── manifest.json
+└── README.md
+```
+
+---
+
+## 3. Despliegue en GitHub Pages
+
+1. Sube el contenido de `frontend/` a la raíz de un repositorio de GitHub.
+2. **Settings → Pages → Source** → selecciona la rama/carpeta donde está `index.html`.
+3. No requiere build step: HTML/CSS/JS puro.
+4. Los enlaces internos usan `pieza.html?id=...` (no `/pieza/{id}`) para funcionar sin configuración adicional en GitHub Pages — ver `docs/GUIA-INTEGRACION-API.md` sección 3 si se requiere la ruta "bonita".
+
+---
+
+## 4. Cómo correrlo en local
+
+```bash
+cd frontend
+python3 -m http.server 8080
+# abrir http://localhost:8080
+# Prueba directa del Pasaporte Digital con datos de ejemplo:
+# http://localhost:8080/pieza.html?id=TR-2026-00842                 (pieza activa)
+# http://localhost:8080/pieza.html?id=TR-2026-00910-descontinuada   (descontinuada)
+# http://localhost:8080/pieza.html?id=TR-2026-00777-vendida         (vendida)
+# http://localhost:8080/pieza.html?id=TR-2026-01055-pendiente       (certificado pendiente)
+# http://localhost:8080/pieza.html?id=no-existe                     (no encontrada)
+#
+# Centro de Operaciones (Fase 4):
+# http://localhost:8080/login.html   (cualquier correo/contraseña de 8+ caracteres)
+# http://localhost:8080/admin.html   (los datos se guardan en localStorage del navegador)
+```
+
+---
+
+## 5. Puntos de integración con el backend (Fase 4+)
+
+**Todo el tráfico hacia el backend pasa exclusivamente por `js/api.js` (objeto `TerraeAPI`).** Ver `docs/GUIA-INTEGRACION-API.md` para la lista completa de endpoints esperados, códigos de estado, y las reglas de privacidad del propietario. Resumen del interruptor:
+
+```js
+// js/app.js
+window.TERRAE_CONFIG = {
+  apiBaseUrl: 'https://tu-api-en-railway.up.railway.app/api/v1',
+  useMock: false, // false = habla con el backend real
+  ...
+};
+```
+
+---
+
+## 6. Calidad y estándares aplicados
+
+- **Accesibilidad (WCAG 2.1 AA):** navegación por teclado completa, foco visible, ARIA en navbar/tabs/modales/huella digital, `prefers-reduced-motion` respetado, skip-link.
+- **SEO:** meta tags, Open Graph, Twitter Cards, favicon, manifest, `canonical` en landing (pieza.html usa `noindex` por ser contenido único por instancia).
+- **Performance:** `preconnect`, `preload` del hero, `loading="lazy"`, carga diferida de la vista técnica de blockchain y del historial de mantenimiento (no se piden hasta que se necesitan).
+- **Responsive:** 4 breakpoints — ver `css/responsive.css`.
+- **Animación:** fade, scroll reveal, zoom suave, hover elegante, transiciones de 400–700ms — nunca efectos llamativos, según el principio de "lujo silencioso".
+
+Ver `docs/COMPONENTES.md`, `docs/GUIA-DE-ESTILOS.md`, `docs/FLUJO-DE-DATOS.md` y `docs/GUIA-INTEGRACION-API.md` para el detalle completo.
