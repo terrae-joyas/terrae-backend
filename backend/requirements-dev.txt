@@ -1,0 +1,12 @@
+# Herramientas de desarrollo — Etapa 2
+# Se instalan además de requirements.txt en entornos locales/CI
+
+-r requirements.txt
+
+ruff==0.7.4              # Linter (reemplaza flake8 + isort)
+black==24.10.0            # Formateador de código
+mypy==1.13.0                # Chequeo de tipos estático
+pytest==8.3.3                 # Framework de pruebas
+pytest-cov==6.0.0               # Cobertura de pruebas
+httpx==0.27.2                     # Cliente HTTP para tests de FastAPI
+pre-commit==4.0.1                   # Hooks de pre-commit

@@ -1,0 +1,53 @@
+[project]
+name = "terrae-backend"
+version = "0.2.0"
+description = "API backend del Ecosistema Digital Terrae (FastAPI, Clean Architecture)"
+requires-python = ">=3.11"
+
+# ------------------------------------------------------------
+# Black — formateador de código
+# ------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+include = '\.pyi?$'
+
+# ------------------------------------------------------------
+# Ruff — linter (reemplaza flake8, isort, pyupgrade, etc.)
+# ------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["app"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errores
+    "F",   # pyflakes
+    "I",   # isort (orden de imports)
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # comprehensions
+    "SIM", # simplificaciones
+]
+ignore = ["E501"]  # el largo de línea lo controla black
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+# ------------------------------------------------------------
+# Mypy — chequeo estático de tipos
+# ------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+disallow_untyped_defs = false
+warn_unused_ignores = true
+
+# ------------------------------------------------------------
+# Pytest
+# ------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+addopts = "-ra -q --cov=app --cov-report=term-missing"
