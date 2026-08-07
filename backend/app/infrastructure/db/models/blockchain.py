@@ -1,4 +1,4 @@
-from _future_ import annotations
+from __future__ import annotations
 
 from datetime import datetime
 
@@ -11,7 +11,7 @@ from app.infrastructure.db.base import Base
 class RegistroBlockchainModel(Base):
     """Constancia de registro on-chain de un certificado."""
 
-    _tablename_ = "registros_blockchain"
+    __tablename__ = "registros_blockchain"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
 
@@ -74,7 +74,7 @@ class RegistroBlockchainModel(Base):
 class NFTModel(Base):
     """Token no fungible asociado a un certificado."""
 
-    _tablename_ = "nfts"
+    __tablename__ = "nfts"
 
     id: Mapped[str] = mapped_column(
         String(36),
@@ -121,7 +121,7 @@ class NFTModel(Base):
 class TokenBlockchainModel(Base):
     """Tokens fungibles asociados a una wallet."""
 
-    _tablename_ = "tokens_blockchain"
+    __tablename__ = "tokens_blockchain"
 
     id: Mapped[str] = mapped_column(
         String(36),
@@ -161,7 +161,7 @@ class TokenBlockchainModel(Base):
 class QRModel(Base):
     """Código QR de trazabilidad asociado a un certificado."""
 
-    _tablename_ = "qr_codigos"
+    __tablename__ = "qr_codigos"
 
     id: Mapped[str] = mapped_column(
         String(36),
