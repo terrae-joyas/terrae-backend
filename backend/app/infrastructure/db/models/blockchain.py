@@ -1,4 +1,16 @@
-"""Modelos ORM: registro en blockchain (EmeraldChain / Polygon), NFT, tokens y QR."""
+[12:32 a.m., 7/8/2026] Juan S: ==================================== ERRORS ====================================
+____ ERROR collecting backend/app/tests/test_auditoria_infra.py ____
+ImportError while importing test module '/home/runner/work/terrae-backend/terrae-backend/backend/app/tests/test_auditoria_infra.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/importlib/_init_.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+backend/app/tests/test_auditoria_infra.py:18: in <module>
+    import app.infrastructure.db.models  # noqa: F401
+backend/app/infrastructure/db/models/_init_.py:17: in <module>
+    from app.infrastructure.db.models.blockchain import (
+backend/app/i…
+[12:34 a.m., 7/8/2026] Juan S: """Modelos ORM: registro en blockchain (EmeraldChain / Polygon), NFT y QR."""
 
 from _future_ import annotations
 
@@ -152,6 +164,8 @@ class TokenBlockchainModel(Base):
         default="0",
     )
 
+    # Se almacena como string para no perder precisión
+    # con enteros grandes (wei).
     actualizado_en: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
